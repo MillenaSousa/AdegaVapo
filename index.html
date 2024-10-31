@@ -31,57 +31,57 @@
             <p class="fisico">FÍSICO</p>
             <textarea name="" id="" class="fisico-text">
 CREATE TABLE Financeiro (
-    ID Number PRIMARY KEY,
-    Despesas Varchar,
-    Embalagem Varchar 
+    ID int PRIMARY KEY,
+    despesas double NOT NULL,
+    descricao varchar(100) NOT NULL
     );
             
 CREATE TABLE Produto (
-    Codigo Number PRIMARY KEY,
-    Descricao Varchar,
-    Validade DATE,
-    QtdEstoque Number,
-    Categoria Varchar 
+    Codigo int PRIMARY KEY,
+    Descricao Varchar(100) NOT NULL,
+    Validade DATE NOT NULL,
+    QtdEstoque int NOT NULL,
+    Categoria Varchar(100) NOT NULL 
     );
             
 CREATE TABLE Tabacaria (
-    tabTipo Varchar,
-    tabCategoria Varchar,
-    fk_Produto_Codigo Number PRIMARY KEY
+    tabTipo Varchar(100) NOT NULL,
+    tabCategoria Varchar(100) NOT NULL,
+    fk_Produto_Codigo int PRIMARY KEY
     );
             
 CREATE TABLE Bebidas (
-    bebTipo Varchar,
-    bebCategoria Varchar,
-    fk_Produto_Codigo Number PRIMARY KEY
+    bebTipo Varchar(100) NOT NULL,
+    bebCategoria Varchar(100) NOT NULL,
+    fk_Produto_Codigo int PRIMARY KEY
     );
             
 CREATE TABLE Prod_venda (
-    ID Number PRIMARY KEY,
-    qtdProduto Number,
-    precoUnidade Number
+    ID int PRIMARY KEY,
+    qtdProduto int NOT NULL,
+    precoUnidade double NOT NULL
     );
             
 CREATE TABLE Venda (
-    Total Number,
-    Lucro Number,
-    Data DATE,
+    Total double NOT NULL,
+    Lucro double NOT NULL,
+    Data DATE NOT NULL,
     ID Number PRIMARY KEY
     );
             
 CREATE TABLE Compra (
-    fk_Produto_Codigo Number,
-    fk_Financeiro_ID Number
+    fk_Produto_Codigo int,
+    fk_Financeiro_ID int
     );
             
 CREATE TABLE Gera (
-    fk_Prod_venda_ID Number,
-    fk_Produto_Codigo Number
+    fk_Prod_venda_ID int,
+    fk_Produto_Codigo int
     );
             
 CREATE TABLE Obtem (
-    fk_Prod_venda_ID Number,
-    fk_Venda_ID Number
+    fk_Prod_venda_ID int,
+    fk_Venda_ID int
     );
              
 ALTER TABLE Tabacaria ADD CONSTRAINT FK_Tabacaria_2
