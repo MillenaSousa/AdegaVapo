@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="script.js"></script>
+    <title>PI</title>
+</head>
+
+<body>
+    <header class="header">
+        <img src="img/logoAdega.png" alt="Logos de instituições" class="logo-img">
+    </header>
+    <main class="main">
+        <div class="div-conceitual">
+            <p class="conceitual">CONCEITUAL</p>
+            <img src="img/Conceitual_adegaF.png" alt="" class="imagem">
+        </div>
+        <div class="div-logico">
+            <p class="logico">LÓGICO</p>
+            <img src="img/Lógico_adegaF.png" alt="" class="imagem">
+        </div>
+
+        <div class="div-fisico">
+
+
+            <p class="fisico">FÍSICO</p>
+            <textarea name="" id="" class="fisico-text">
+CREATE TABLE Financeiro (
+    ID Number PRIMARY KEY,
+    Despesas Varchar,
+    Embalagem Varchar 
+    );
+            
+CREATE TABLE Produto (
+    Codigo Number PRIMARY KEY,
+    Descricao Varchar,
+    Validade DATE,
+    QtdEstoque Number,
+    Categoria Varchar 
+    );
+            
+CREATE TABLE Tabacaria (
+    tabTipo Varchar,
+    tabCategoria Varchar,
+    fk_Produto_Codigo Number PRIMARY KEY
+    );
+            
+CREATE TABLE Bebidas (
+    bebTipo Varchar,
+    bebCategoria Varchar,
+    fk_Produto_Codigo Number PRIMARY KEY
+    );
+            
+CREATE TABLE Prod_venda (
+    ID Number PRIMARY KEY,
+    qtdProduto Number,
+    precoUnidade Number
+    );
+            
+CREATE TABLE Venda (
+    Total Number,
+    Lucro Number,
+    Data DATE,
+    ID Number PRIMARY KEY
+    );
+            
+CREATE TABLE Compra (
+    fk_Produto_Codigo Number,
+    fk_Financeiro_ID Number
+    );
+            
+CREATE TABLE Gera (
+    fk_Prod_venda_ID Number,
+    fk_Produto_Codigo Number
+    );
+            
+CREATE TABLE Obtem (
+    fk_Prod_venda_ID Number,
+    fk_Venda_ID Number
+    );
+             
+ALTER TABLE Tabacaria ADD CONSTRAINT FK_Tabacaria_2
+    FOREIGN KEY (fk_Produto_Codigo)
+    REFERENCES Produto (Codigo)
+    ON DELETE CASCADE;
+             
+ALTER TABLE Bebidas ADD CONSTRAINT FK_Bebidas_2
+    FOREIGN KEY (fk_Produto_Codigo)
+    REFERENCES Produto (Codigo)
+    ON DELETE CASCADE;
+             
+ALTER TABLE Compra ADD CONSTRAINT FK_Compra_1
+    FOREIGN KEY (fk_Produto_Codigo)
+    REFERENCES Produto (Codigo)
+    ON DELETE RESTRICT;
+             
+ALTER TABLE Compra ADD CONSTRAINT FK_Compra_2
+    FOREIGN KEY (fk_Financeiro_ID)
+    REFERENCES Financeiro (ID)
+    ON DELETE SET NULL;
+             
+ALTER TABLE Gera ADD CONSTRAINT FK_Gera_1
+    FOREIGN KEY (fk_Prod_venda_ID)
+    REFERENCES Prod_venda (ID)
+    ON DELETE RESTRICT;
+             
+ALTER TABLE Gera ADD CONSTRAINT FK_Gera_2
+    FOREIGN KEY (fk_Produto_Codigo)
+    REFERENCES Produto (Codigo)
+    ON DELETE SET NULL;
+             
+ALTER TABLE Obtem ADD CONSTRAINT FK_Obtem_1
+    FOREIGN KEY (fk_Prod_venda_ID)
+    REFERENCES Prod_venda (ID)
+    ON DELETE RESTRICT;
+             
+ALTER TABLE Obtem ADD CONSTRAINT FK_Obtem_2
+    FOREIGN KEY (fk_Venda_ID)
+    REFERENCES Venda (ID)
+    ON DELETE RESTRICT;
+        </textarea>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+
+</body>
+
+</html>
