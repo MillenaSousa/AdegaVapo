@@ -18,11 +18,11 @@
     <main class="main">
         <div class="div-conceitual">
             <p class="conceitual">CONCEITUAL</p>
-            <img src="img/Conceitual_adegaF.png" alt="" class="imagem">
+            <img src="img/Conceitual_adegaFF.png" alt="" class="imagem">
         </div>
         <div class="div-logico">
             <p class="logico">LÓGICO</p>
-            <img src="img/Lógico_adegaF.png" alt="" class="imagem">
+            <img src="img/logico.png" alt="" class="imagem">
         </div>
 
         <div class="div-fisico">
@@ -30,99 +30,77 @@
 
             <p class="fisico">FÍSICO</p>
             <textarea name="" id="" class="fisico-text">
-CREATE TABLE Financeiro (
-    ID int PRIMARY KEY,
-    despesas double NOT NULL,
-    descricao varchar(100) NOT NULL
-    );
-            
-CREATE TABLE Produto (
-    Codigo int PRIMARY KEY,
-    Descricao Varchar(100) NOT NULL,
-    Validade DATE NOT NULL,
-    QtdEstoque int NOT NULL,
-    Categoria Varchar(100) NOT NULL 
-    );
-            
-CREATE TABLE Tabacaria (
-    tabTipo Varchar(100) NOT NULL,
-    tabCategoria Varchar(100) NOT NULL,
-    fk_Produto_Codigo int PRIMARY KEY
-    );
-            
-CREATE TABLE Bebidas (
-    bebTipo Varchar(100) NOT NULL,
-    bebCategoria Varchar(100) NOT NULL,
-    fk_Produto_Codigo int PRIMARY KEY
-    );
-            
-CREATE TABLE Prod_venda (
-    ID int PRIMARY KEY,
-    qtdProduto int NOT NULL,
-    precoUnidade double NOT NULL
-    );
-            
-CREATE TABLE Venda (
-    Total double NOT NULL,
-    Lucro double NOT NULL,
-    Data DATE NOT NULL,
-    ID Number PRIMARY KEY
-    );
-            
-CREATE TABLE Compra (
-    fk_Produto_Codigo int,
-    fk_Financeiro_ID int
-    );
-            
-CREATE TABLE Gera (
-    fk_Prod_venda_ID int,
-    fk_Produto_Codigo int
-    );
-            
-CREATE TABLE Obtem (
-    fk_Prod_venda_ID int,
-    fk_Venda_ID int
-    );
-             
-ALTER TABLE Tabacaria ADD CONSTRAINT FK_Tabacaria_2
-    FOREIGN KEY (fk_Produto_Codigo)
-    REFERENCES Produto (Codigo)
-    ON DELETE CASCADE;
-             
-ALTER TABLE Bebidas ADD CONSTRAINT FK_Bebidas_2
-    FOREIGN KEY (fk_Produto_Codigo)
-    REFERENCES Produto (Codigo)
-    ON DELETE CASCADE;
-             
-ALTER TABLE Compra ADD CONSTRAINT FK_Compra_1
-    FOREIGN KEY (fk_Produto_Codigo)
-    REFERENCES Produto (Codigo)
-    ON DELETE RESTRICT;
-             
-ALTER TABLE Compra ADD CONSTRAINT FK_Compra_2
-    FOREIGN KEY (fk_Financeiro_ID)
-    REFERENCES Financeiro (ID)
-    ON DELETE SET NULL;
-             
-ALTER TABLE Gera ADD CONSTRAINT FK_Gera_1
-    FOREIGN KEY (fk_Prod_venda_ID)
-    REFERENCES Prod_venda (ID)
-    ON DELETE RESTRICT;
-             
-ALTER TABLE Gera ADD CONSTRAINT FK_Gera_2
-    FOREIGN KEY (fk_Produto_Codigo)
-    REFERENCES Produto (Codigo)
-    ON DELETE SET NULL;
-             
-ALTER TABLE Obtem ADD CONSTRAINT FK_Obtem_1
-    FOREIGN KEY (fk_Prod_venda_ID)
-    REFERENCES Prod_venda (ID)
-    ON DELETE RESTRICT;
-             
-ALTER TABLE Obtem ADD CONSTRAINT FK_Obtem_2
-    FOREIGN KEY (fk_Venda_ID)
-    REFERENCES Venda (ID)
-    ON DELETE RESTRICT;
+CREATE SCHEMA IF NOT EXISTS `bancoadega` DEFAULT CHARACTER SET utf16 ;
+USE `bancoadega` ;
+
+-- -----------------------------------------------------
+-- Table `bancoadega`.`financeiro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bancoadega`.`financeiro` (
+  `ID` INT NOT NULL,
+  `despesas` DOUBLE NOT NULL,
+  `descricao` VARCHAR(100) NOT NULL,
+  `qtdMedida` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf16;
+
+
+-- -----------------------------------------------------
+-- Table `bancoadega`.`produto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bancoadega`.`produto` (
+  `Codigo_Prod` INT NOT NULL,
+  `Descricao` VARCHAR(100) NOT NULL,
+  `Validade` DATE NOT NULL,
+  `QtdEstoque` INT NOT NULL,
+  `Categoria` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`Codigo_Prod`))
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf16;
+
+
+-- -----------------------------------------------------
+-- Table `bancoadega`.`vend_semanal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bancoadega`.`vend_semanal` (
+  `Ven_id` INT NOT NULL,
+  `Quantidade` INT NOT NULL,
+  `Pro_valor` DOUBLE NOT NULL,
+  `Ven_data` DATE NOT NULL,
+  `Ven_total` DOUBLE NULL DEFAULT NULL,
+  `Codigo_Ven_Prod` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`Ven_id`),
+  INDEX `FK_Cod_prod` (`Codigo_Ven_Prod` ASC) VISIBLE)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf16;
+
+
+-- -----------------------------------------------------
+-- Table `bancoadega`.`financeiro_has_produto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bancoadega`.`financeiro_has_produto` (
+  `financeiro_ID` INT NOT NULL,
+  `produto_Codigo_Prod` INT NOT NULL,
+  PRIMARY KEY (`financeiro_ID`, `produto_Codigo_Prod`),
+  INDEX `fk_financeiro_has_produto_produto1_idx` (`produto_Codigo_Prod` ASC) VISIBLE,
+  INDEX `fk_financeiro_has_produto_financeiro_idx` (`financeiro_ID` ASC) VISIBLE)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf16;
+
+
+-- -----------------------------------------------------
+-- Table `bancoadega`.`produto_has_vend_semanal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bancoadega`.`produto_has_vend_semanal` (
+  `produto_Codigo_Prod` INT NOT NULL,
+  `vend_semanal_Ven_id` INT NOT NULL,
+  PRIMARY KEY (`produto_Codigo_Prod`, `vend_semanal_Ven_id`),
+  INDEX `fk_produto_has_vend_semanal_vend_semanal1_idx` (`vend_semanal_Ven_id` ASC) VISIBLE,
+  INDEX `fk_produto_has_vend_semanal_produto1_idx` (`produto_Codigo_Prod` ASC) VISIBLE)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf16;
+                
         </textarea>
         </div>
     </main>
