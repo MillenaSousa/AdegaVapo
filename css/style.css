@@ -24,9 +24,10 @@ main .fisico-text {
 }
 
 main  p {
-    background-color: #FFFFFF;
+    background-color: #90189E;
     padding: .5rem;
     max-width: 100%;
+    color: #FFFFFF;
 
 }
 
