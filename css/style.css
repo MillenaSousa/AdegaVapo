@@ -16,6 +16,11 @@ main img {
     right: 30rem;
     padding: 12px;
 }
+main .testes-fisico video {  
+    width: 22.5rem;
+    right: 30rem;
+    padding: 12px;
+}
 
 main .fisico-text {
     width: 22.5rem;
